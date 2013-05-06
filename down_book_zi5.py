@@ -91,7 +91,7 @@ if __name__ == "__main__":
         print (url)    
         remote_down_url(url)
         remote_book_name(url)
-        if down_url != "error":
+        if down_url != "error" :
             down_book(down_url,book_name,local_dir)
         else:
             continue
