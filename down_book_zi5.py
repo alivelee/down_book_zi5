@@ -13,6 +13,8 @@ Copyright 2012 Down_book_zi5
 __author__ = "Sam.huang"
 import re
 import requests
+import os
+import sys
 
 def remote_down_url(remote_url):
     """
@@ -36,7 +38,7 @@ def remote_down_url(remote_url):
 
         else:
             down_url = "error"
-            print ("No Search Down Url.....")
+            print (".....No Search Down Url.....")
     else:
         print ("ERROR 404!....")
 
@@ -59,13 +61,14 @@ def remote_book_name(remote_url):
             #如果search()的值为空，即说明能提取到电子书的书籍名称
             match = re.search(regex_book_name, re_file)
             global book_name
-            book_name = match.group(2)+ ".mobi" 
+            book_name = match.group(2)
             #使用match.group(2)提取正则表达式里面第二个()的返回值
             print ("BookName:",book_name)
             
         else:
             book_name = "error"
-            print ("No Search Book Name.....")
+            print (".....No Search Book Name.....")
+            print ("******************************")
     else:
         print ("ERROR 404!....")
 
@@ -75,20 +78,27 @@ def down_book(down_url,book_name,local_dir):
     @down_dir     : 下载回来的书籍绝对存放路径
     使用write蒋r.content的内容写入到文件
     """
-    down_dir = str(local_dir) + str(book_name)
-    print (down_dir)
-    r = requests.get(down_url)
-    with open(down_dir, "wb") as code:
-        code.write(r.content)
+    down_dir = str(local_dir) + str(book_name)+ ".mobi"
+    if os.path.exists(down_dir) == True: #判断书籍是否被下载过，如已存在文件则跳过
+        #sys.exit()
+        print ("....Books already exists....")
+        print ()
+
+    elif os.path.exists(down_dir) == False:
+        print ("DownDir: ", down_dir)
+        print ("************************************************************")
+        r = requests.get(down_url)
+        with open(down_dir, "wb") as code:
+            code.write(r.content)
 
 
 
 if __name__ == "__main__":
     url_pre = "http://book.zi5.me/books/detail/"
     local_dir = "D:\\Python\\code\\book_zi5\\book\\"
-    for i in range(1, 1251): #目前为止zi5上的页面最大为1251
+    for i in range(8, 15):
         url = url_pre + str(i)
-        print (url)    
+        print ("Page: ", url)    
         remote_down_url(url)
         remote_book_name(url)
         if down_url != "error" :
@@ -98,8 +108,4 @@ if __name__ == "__main__":
     else:
         print ("Downing Finish")
   
-    
-
-
-
 
