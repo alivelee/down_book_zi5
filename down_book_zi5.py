@@ -96,7 +96,7 @@ def down_book(down_url,book_name,local_dir):
 if __name__ == "__main__":
     url_pre = "http://book.zi5.me/books/detail/"
     local_dir = "D:\\Python\\code\\book_zi5\\book\\"
-    for i in range(8, 15):
+    for i in range(1, 1260):#目前book.zi5.me书籍地址最多到1260
         url = url_pre + str(i)
         print ("Page: ", url)    
         remote_down_url(url)
